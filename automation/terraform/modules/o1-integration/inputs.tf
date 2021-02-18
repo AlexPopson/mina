@@ -70,3 +70,19 @@ variable "block_producer_configs" {
     })
   )
 }
+
+variable "archive_node_configs" {
+  type = list(
+    object({
+      name = string,
+      class = string,
+      id= string,
+      enable_gossip_flooding= bool,
+      run_with_user_agent= bool,
+      run_with_bots= bool,
+      enable_peer_exchange= bool,
+      isolated = bool,
+      libp2p_secret = string  
+    })
+  )
+}
