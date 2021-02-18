@@ -69,6 +69,7 @@ module Network_config = struct
     ; runtime_config: Yojson.Safe.t
           [@to_yojson fun j -> `String (Yojson.Safe.to_string j)]
     ; block_producer_configs: block_producer_config list
+    ; archive_node_count: int
     ; snark_worker_replicas: int
     ; snark_worker_fee: string
     ; snark_worker_public_key: string }
@@ -98,6 +99,7 @@ module Network_config = struct
         ; txpool_max_size
         ; block_producers
         ; num_snark_workers
+        ; num_archive_nodes
         ; snark_worker_fee
         ; snark_worker_public_key } =
       test_config
@@ -239,6 +241,7 @@ module Network_config = struct
         ; runtime_config= Runtime_config.to_yojson runtime_config
         ; block_producer_configs=
             List.mapi block_producer_keypairs ~f:block_producer_config
+        ; archive_node_count= num_archive_nodes
         ; snark_worker_replicas= num_snark_workers
         ; snark_worker_public_key
         ; snark_worker_fee } }
@@ -414,8 +417,6 @@ module Network_manager = struct
       (Kubernetes_network.Node.node_list_to_string result.snark_coordinators) ;
     [%log' info t.logger] "block_producers_list: %s"
       (Kubernetes_network.Node.node_list_to_string result.block_producers) ;
-    [%log' info t.logger] "archive_nodes_list: %s"
-      (Kubernetes_network.Node.node_list_to_string result.archive_nodes) ;
     result
 
   let destroy t =

@@ -54,6 +54,10 @@ variable "snark_worker_public_key" {
   type = string
 }
 
+variable "archive_node_count" {
+  type = number
+}
+
 variable "block_producer_configs" {
   type = list(
     object({
